@@ -1,128 +1,120 @@
--- Killbot Script with Robust Audio System
--- ==============================================================================
--- This is supposed to be a DeltaFix4 as I commited A LOT OF CHANGES to this file
--- if you look at the history
-
--- ORIGINAL SCRIPT FROM GITHUB
--- MADE BY RESERVED, THANKS TO DEEPSEEK FOR DA HELP
--- gonna leave deepseek's comment here... reserved on top
--- ==============================================================================
-
-
--- Enjoy.
--- if it doesnt work ill commit more than 30+ changes till I fix the audio
+-- never saw this one (SUPER IDOL- jk)
+-- Made by Reserved
+-- DeepSeek AI is helping me cuz idk how do I play audio from github url
+-- so i hope u enjoy
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
-wait(7)
+wait(6)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/KillbotDefault.lua"))()
 
-local function playKillbotAudio()
-    local songUrl = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3"
-    local fileName = "killbot_audio.mp3"
+-- NOTIFICATION
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "yippee",
+    Text = "i hope you clicked Take me there if the game isnt supported (in under 10 secs)",
+    Duration = 5
+})
+
+-- GITHUB MEDIA PLAYER FUNCTION (FROM THE SCRIPT YOU FOUND)
+local function playAudioFromGitHub()
+    -- This function downloads and plays audio from GitHub
+    local audioUrl = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3"
+    local fileName = "killbot_music.mp3"
     
-    print("🔊 Initializing audio system...")
+    print("🎵 Initializing GitHub Media Player...")
     
-    -- METHOD 1: Direct play (simplest)
-    local sound1 = Instance.new("Sound")
-    sound1.Name = "KillbotTheme"
-    sound1.Looped = true
-    sound1.Volume = 0.7
-    sound1.Parent = workspace
-    
-    -- Try the URL directly first
-    sound1.SoundId = songUrl
-    wait(2)
-    
-    if sound1.IsLoaded then
-        sound1:Play()
-        print("✅ METHOD 1: Direct URL works!")
-        return sound1
-    end
-    
-    print("❌ METHOD 1 failed, trying METHOD 2...")
-    
-    -- METHOD 2: Download and use file://
+    -- Check if executor has file functions
     if writefile and readfile then
-        print("📥 Downloading audio...")
+        print("📥 Downloading audio from GitHub...")
+        
+        -- Download the audio file
         local success, audioData = pcall(function()
-            return game:HttpGet(songUrl, true)
+            return game:HttpGet(audioUrl, true)
         end)
         
         if success and audioData then
+            -- Save to file
             writefile(fileName, audioData)
-            print("✅ Downloaded: " .. #audioData .. " bytes")
+            print("✅ Audio downloaded: " .. #audioData .. " bytes")
             
-            local sound2 = Instance.new("Sound")
-            sound2.Name = "KillbotLocal"
-            sound2.Looped = true
-            sound2.Volume = 0.7
-            sound2.Parent = workspace
+            local sound = Instance.new("Sound")
+            sound.Name = "GitHubAudio"
+            sound.Looped = true
+            sound.Volume = 0.7
+            sound.Parent = workspace
             
-            -- Try file:// protocol
-            sound2.SoundId = "file://" .. fileName
-            wait(3)
+            local methods = {
+                function() 
+                    sound.SoundId = "file://" .. fileName 
+                    print("Trying file:// protocol")
+                end,
+                function()
+                    if getcustomasset then
+                        sound.SoundId = getcustomasset(fileName)
+                        print("Trying getcustomasset")
+                    end
+                end,
+                function()
+                    if _G and _G.PlayAudio then
+                        _G.PlayAudio(audioUrl, true, 0.7)
+                        print("Using executor audio function")
+                        return true
+                    end
+                    return false
+                end
+            }
             
-            if sound2.IsLoaded then
-                sound2:Play()
-                print("✅ METHOD 2: file:// protocol works!")
-                sound1:Destroy()
-                return sound2
-            else
-                print("❌ file:// not working")
-                sound2:Destroy()
+            for i, method in ipairs(methods) do
+                local success = pcall(method)
+                if success then
+                    print("✅ Method " .. i .. " succeeded")
+                    break
+                end
             end
-        end
-    end
-    
-    print("❌ METHOD 2 failed, trying METHOD 3...")
-    
-    -- METHOD 3: Use a working Roblox audio ID as fallback
-    local fallbackIDs = {
-        9096765392,  -- something i left here heh...
-        9111348332,  -- Epic music
-        1847248709,  -- LoFi
-        6951256309,  -- Synth
-        311739919    -- Default
-    }
-    
-    for _, id in ipairs(fallbackIDs) do
-        local sound3 = Instance.new("Sound")
-        sound3.SoundId = "rbxassetid://" .. id
-        sound3.Looped = true
-        sound3.Volume = 0.5
-        sound3.Parent = workspace
         
-        wait(2)
-        if sound3.IsLoaded then
-            sound3:Play()
-            print("✅ METHOD 3: Using Roblox ID: " .. id)
-            sound1:Destroy()
-            return sound3
+            wait(2)
+            sound:Play()
+            
+            wait(3)
+            if sound.IsPlaying then
+                print("🎵 GitHub audio playing successfully!")
+                return sound
+            else
+                print("❌ Audio loaded but not playing")
+                sound:Destroy()
+                return nil
+            end
         else
-            sound3:Destroy()
+            print("❌ Failed to download audio")
         end
+    else
+        print("❌ File system not available")
     end
     
-    print("❌ All audio methods failed!")
-    sound1:Destroy()
     return nil
 end
 
 -- Start audio
 spawn(function()
-    local music = playKillbotAudio()
-    if music then
-        print("🎵 alright its done")
-    else
-        print("⚠️ failed buddy, at least the script works right")
-        print("ok im done bye")
+    local music = playAudioFromGitHub()
+    
+    if not music then
+        print("🔄 Trying alternative audio method...")
+        
+        if syn and syn.audio then
+            syn.audio.play("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3", {
+                Looped = true,
+                Volume = 0.5
+            })
+            print("✅ Using executor's audio system")
+        elseif fluxus and fluxus.audio then
+            fluxus.audio.play("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3", {
+                Looped = true,
+                Volume = 0.5
+            })
+            print("✅ Using Fluxus audio")
+        else
+            print("⚠️ Audio may not play - executor limitations")
+            print("Download manually: " .. "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3")
+        end
     end
 end)
-
-game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "Killbot Active",
-    Text = "ENJOY! :D",
-    Duration = 5
-})
-
-print("\n=== I AM F#####G DONE ===")
