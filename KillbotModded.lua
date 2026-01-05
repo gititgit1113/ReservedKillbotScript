@@ -1,60 +1,56 @@
+-- please i need this
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
 wait(7)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/KillbotDefault.lua"))()
 
 spawn(function()
-    local audioUrl = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3"
+    print("🔊 Setting up audio workaround...")
     
-    print("📥 downloading song...")
-    local audioData = game:HttpGet(audioUrl, true)
+    local gameSounds = workspace:GetDescendants()
+    local foundSound = nil
     
-    local fileName = "kbot_song.ogg"
-    writefile(fileName, audioData)
-    print("✅ saved as: " .. fileName)
-
-    local sound = Instance.new("Sound")
-    sound.Name = "BackgroundMusic"
-    sound.Looped = true
-    sound.Volume = 0.7
-    sound.Parent = workspace
-    
-    sound.SoundId = "file://" .. fileName
-    
-    print("🔄 loading audio (wait 5 secs)")
-    
-    for i = 1, 10 do
-        wait(0.5)
-        print("loading... " .. i * 0.5 .. "s")
+    for _, obj in pairs(gameSounds) do
+        if obj:IsA("Sound") and obj.SoundId ~= "" then
+            foundSound = obj
+            break
+        end
     end
     
-    sound:Play()
-    print("🎵 attempting to play")
-    
-    wait(2)
-    print("audio status:")
-    print("- IsPlaying: " .. tostring(sound.IsPlaying))
-    print("- IsLoaded: " .. tostring(sound.IsLoaded))
-    print("- TimeLength: " .. tostring(sound.TimeLength))
-    
-    if not sound.IsPlaying then
-        print("🔄 restarting audio...")
-        sound:Stop()
-        wait(0.5)
-        sound:Play()
+    if foundSound then
+        print("✅ Found game sound: " .. foundSound.Name)
+        local music = foundSound:Clone()
+        music.Name = "BackgroundMusic"
+        music.Looped = true
+        music.Volume = 0.5
+        music.Parent = workspace
+        music:Play()
+        print("🎵 Playing modified game sound")
+    else
+        local uiSound = Instance.new("Sound")
+        uiSound.SoundId = "rbxasset://sounds/action_get_up.mp3"
+        uiSound.Looped = true
+        uiSound.Volume = 0.3
+        uiSound.Parent = workspace
+        
+        for i = 1, 5 do
+            wait(2)
+            pcall(function()
+                uiSound:Play()
+                print("Attempt " .. i .. ": Playing built-in sound")
+            end)
+        end
     end
+    
+    -- METHOD 3: Visual indicator since audio is blocked
+    local warning = Instance.new("Message")
+    warning.Text = "🎵 Audio blocked by Roblox security"
+    warning.Parent = workspace
+    wait(3)
+    warning:Destroy()
 end)
 
 game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "yippee",
-    Text = "song downloaded! check console for status",
+    Title = "Scripts Loaded!",
+    Text = "what the hell is wrong with the audio...",
     Duration = 5
 })
-
-spawn(function()
-    wait(3)
-    local UserGameSettings = UserSettings():GetService("UserGameSettings")
-    pcall(function()
-        UserGameSettings.MasterVolume = 1.0
-        print("🔊 volume set to max")
-    end)
-end)
