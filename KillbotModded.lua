@@ -1,43 +1,7 @@
--- alright i added audio hope you enjoy
 -- made by Reserved
--- thanks to DeepSeek AI for helping
+-- enjoy and if it doesn't say "This game isn't supported!" then it will be server sided
+
 if not game:IsLoaded() then game.Loaded:Wait() end
-
-local function playKillbotSong()
-    print("🎵 Playing Killbot theme...")
-    
-    local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://125479500950400"
-    sound.Volume = 2
-    sound.Pitch = 1.0
-    sound.PlaybackSpeed = 0.2
-    sound.Name = "KillbotTheme"
-    sound.Looped = true
-    sound.Parent = game:GetService("Workspace")
-    
-    local success, err = pcall(function()
-        sound:Play()
-    end)
-    
-    if success then
-        print("✅ Audio is playing (looped)!")
-        print("   Volume: 2 | Pitch: 1.0 | Speed: 0.2")
-        
-        task.delay(60, function()
-            if sound and sound.Playing then
-                sound:Stop()
-                sound:Destroy()
-                print("⏹️ Audio stopped after 60 seconds")
-            end
-        end)
-    else
-        print("❌ Audio failed:", err)
-        print("⚠ Make sure Audio ID 125479500950400 is valid and accessible")
-        sound:Destroy()
-    end
-end
-
-task.spawn(playKillbotSong)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
 
@@ -54,6 +18,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
+-- Wait for chat events
 local SayMessageRequest
 repeat
     for _, child in pairs(ReplicatedStorage:GetChildren()) do
@@ -72,6 +37,8 @@ repeat
                     wait(1)
                 end
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
+                -- Play audio AFTER killbot script
+                playKillbotAudio()
                 return
             end
         end
@@ -84,3 +51,32 @@ for i = 1, 6 do
 end
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
+
+local function playKillbotAudio()
+    wait(1)
+    
+    print("🎵 Playing Killbot theme after activation...")
+    
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://125479500950400"
+    sound.Volume = 2
+    sound.Pitch = 1.0
+    sound.PlaybackSpeed = 0.2
+    sound.Name = "KillbotTheme"
+    sound.Looped = true
+    sound.Parent = game:GetService("Workspace")
+    
+    -- Try to play
+    local success, err = pcall(function()
+        sound:Play()
+    end)
+    
+    if success then
+        print("✅ Killbot theme playing! (Volume: 2 | Speed: 0.2)")
+    else
+        print("❌ Audio failed:", err)
+        sound:Destroy()
+    end
+end
+
+playKillbotAudio()
