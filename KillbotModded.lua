@@ -1,5 +1,5 @@
--- Reserved On Top.
--- this might be the last update as I am now developing this for 2 hours...
+-- i rlly hope i bypassed the patch
+-- MADE BY RESERVED AS ALWAYS :3
 
 if not game:IsLoaded() then game.Loaded:Wait() end
 
@@ -14,13 +14,37 @@ local msgs = {
     "Killbot... Awaken."
 }
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local SayMessageRequest
+repeat
+    for _, child in pairs(ReplicatedStorage:GetChildren()) do
+        if child:IsA("RemoteEvent") and (child.Name:find("Say") or child.Name:find("Chat")) then
+            SayMessageRequest = child
+            break
+        end
+    end
+    if not SayMessageRequest then
+        wait(0.5)
+        if game:GetService("TextChatService"):FindFirstChild("TextChannels") then
+            local RBXGeneral = game:GetService("TextChatService").TextChannels:FindFirstChild("RBXGeneral")
+            if RBXGeneral then
+                for i = 1, 6 do
+                    RBXGeneral:SendAsync(msgs[i])
+                    wait(1)
+                end
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
+                return
+            end
+        end
+    end
+until SayMessageRequest
+
 for i = 1, 6 do
-    local args = {
-        [1] = msgs[i],
-        [2] = "All"
-    }
-    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+    SayMessageRequest:FireServer(msgs[i], "All")
     wait(1)
 end
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))() -- main script
+loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))() -- the main script for kill bot
