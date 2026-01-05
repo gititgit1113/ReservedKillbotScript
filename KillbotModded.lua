@@ -1,83 +1,60 @@
--- added debug
--- holy shit how many commits did i leave in the history
--- alright thanks to deepseek for the help (chatgpt sucks)
--- made by reserved (OGChatUnlocker on Roblox)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
+wait(7)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/KillbotDefault.lua"))()
 
-print("=== AUDIO DEBUGGER ===")
+spawn(function()
+    local audioUrl = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3"
+    
+    print("📥 downloading song...")
+    local audioData = game:HttpGet(audioUrl, true)
+    
+    local fileName = "kbot_song.ogg"
+    writefile(fileName, audioData)
+    print("✅ saved as: " .. fileName)
 
-local audioUrl = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3"
-
-print("1. Testing URL access...")
-local success, data = pcall(function()
-    return game:HttpGet(audioUrl, true)
+    local sound = Instance.new("Sound")
+    sound.Name = "BackgroundMusic"
+    sound.Looped = true
+    sound.Volume = 0.7
+    sound.Parent = workspace
+    
+    sound.SoundId = "file://" .. fileName
+    
+    print("🔄 loading audio (wait 5 secs)")
+    
+    for i = 1, 10 do
+        wait(0.5)
+        print("loading... " .. i * 0.5 .. "s")
+    end
+    
+    sound:Play()
+    print("🎵 attempting to play")
+    
+    wait(2)
+    print("audio status:")
+    print("- IsPlaying: " .. tostring(sound.IsPlaying))
+    print("- IsLoaded: " .. tostring(sound.IsLoaded))
+    print("- TimeLength: " .. tostring(sound.TimeLength))
+    
+    if not sound.IsPlaying then
+        print("🔄 restarting audio...")
+        sound:Stop()
+        wait(0.5)
+        sound:Play()
+    end
 end)
 
-if success then
-    print("✅ URL accessible | Data size: " .. #data .. " bytes")
-    
-    if writefile then
-        print("✅ writefile available")
-        
-        local fileName = "debug_audio.mp3"
-        writefile(fileName, data)
-        print("✅ File saved: " .. fileName)
-        
-        if readfile then
-            local fileData = readfile(fileName)
-            print("✅ File readable | Size: " .. #fileData .. " bytes")
-        end
-        
-        print("\n5. Testing playback methods...")
-        
-        local soundA = Instance.new("Sound")
-        soundA.SoundId = "file://" .. fileName
-        soundA.Volume = 0.5
-        soundA.Parent = workspace
-        
-        print("Method A: file://" .. fileName)
-        
-        local soundB = Instance.new("Sound")
-        soundB.Volume = 0.5
-        soundB.Parent = workspace
-        
-        if soundB.LoadAsync then
-            pcall(function()
-                soundB:LoadAsync("file://" .. fileName)
-                print("✅ LoadAsync available")
-            end)
-        end
-        
-        wait(3)
-        
-        print("\n=== STATUS ===")
-        print("Sound A Loaded: " .. tostring(soundA.IsLoaded))
-        print("Sound A Playing: " .. tostring(soundA.IsPlaying))
-        print("Sound B Loaded: " .. tostring(soundB.IsLoaded))
-        print("Sound B Playing: " .. tostring(soundB.IsPlaying))
-        
-        if not soundA.IsPlaying then
-            print("\n🎵 Force playing sound A...")
-            soundA:Play()
-            wait(1)
-            print("Now playing: " .. tostring(soundA.IsPlaying))
-        end
-        
-        local soundC = Instance.new("Sound")
-        soundC.SoundId = "file://" .. fileName
-        soundC.Volume = 0.7
-        soundC.Parent = game:GetService("SoundService") -- Try SoundService instead
-        wait(1)
-        soundC:Play()
-        print("Sound C (in SoundService) playing: " .. tostring(soundC.IsPlaying))
-        
-    else
-        print("❌ writefile not available")
-    end
-else
-    print("❌ URL not accessible: " .. data)
-end
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "yippee",
+    Text = "song downloaded! check console for status",
+    Duration = 5
+})
 
-print("\n=== CHECK YOUR SPEAKERS ===")
-print("1. Is your computer volume up?")
-print("2. Is Roblox volume up? (check in-game settings)")
-print("3. Try playing any YouTube video to test speakers")
+spawn(function()
+    wait(3)
+    local UserGameSettings = UserSettings():GetService("UserGameSettings")
+    pcall(function()
+        UserGameSettings.MasterVolume = 1.0
+        print("🔊 volume set to max")
+    end)
+end)
