@@ -1,9 +1,51 @@
--- KILLBOTS ARE TAKING OVER ROBLOX
--- This is a server-sided script (but it doesn't work in a lot of games)
--- Supported games I tested is Mega Run Marble Pit game and Piano Keyboard v1.1
--- Enjoy. Made by Reserved
+-- Made by Reserved
+-- ============================================
+-- SUPPORTED GAMES LIST:
+--  RetroStudio
+--  Car Crushers 2
+--  MIC UP
+--  something evil will happen
+--  Ragdoll Engine
+--  Advanced Euphoria Ragdoll
+--  Circuit Board
+--  Hide the body
+--  a dusty trip
+--  Jujutsu Shenanigans
+--  Roblox_Egor simulator
+--  Work at a Pizza Place
+-- ===========================================
+-- ===========================================
+-- NEW GAMES LIST:
+--  CrossRoads
+--  PhotoshootX
+--  The Horror Mansion 
+--  Moderators are epical
+--  Baer
+--  Piano Keyboard v1.1 (might work i tested it like a lot)
+--  Life in Paradies 
+--  Chaos [Event]
+--  Just a Baseplate (it should work but sometimes people cant see the animations)
+--  Eat Sand
+-- ===========================================
+-- The games above I listed are the compatible games, meaning the animations are server-sided for those games.
 
 if not game:IsLoaded() then game.Loaded:Wait() end
+
+local settings = _G
+settings["Use default animations"] = true
+settings["Fake character transparency level"] = 1
+settings["Disable character scripts"] = true
+settings["Fake character should collide"] = true
+settings["Parent real character to fake character"] = false
+settings["Respawn character"] = true
+settings["Instant respawn"] = true
+settings["Hide HumanoidRootPart"] = false
+settings["PermaDeath fake character"] = true
+settings["R15 Reanimate"] = false
+settings["Click Fling"] = false
+settings["Anti-Fling"] = true
+settings["Hide RootPart Distance"] = CFrame.new(255, 255, 0)
+settings["Names to exclude from transparency"] = {}
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
 
@@ -35,7 +77,7 @@ repeat
             if RBXGeneral then
                 for i = 1, 6 do
                     RBXGeneral:SendAsync(msgs[i])
-                    wait(3)
+                    wait(1)
                 end
                 
                 local sound = Instance.new("Sound")
