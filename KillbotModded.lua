@@ -1,37 +1,51 @@
--- this works finally (release 1.0?)
 -- MADE BY RESERVED AS ALWAYS :3
-
+-- i fixed the script. release 1.0.1
 if not game:IsLoaded() then game.Loaded:Wait() end
 
 local function playKillbotSong()
-    -- Download the MP3 file
     local soundUrl = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3"
     
     local sound = Instance.new("Sound")
     sound.SoundId = soundUrl
     sound.Volume = 1
-    sound.Looped = false
     sound.Name = "KillbotTheme"
     
-    sound.Parent = game:GetService("Workspace")
+    if not pcall(function()
+        sound.Parent = game:GetService("Workspace")
+        sound:Play()
+    end) then
+        sound.SoundId = "http://" .. string.sub(soundUrl, 9)
+        sound.Parent = game:GetService("Workspace")
+        sound:Play()
+    end
     
-    sound:Play()
+    if syn and syn.saveinstance then
+        task.spawn(function()
+            local audioId = "rbxassetid://9114828338"
+            local backupSound = Instance.new("Sound")
+            backupSound.SoundId = audioId
+            backupSound.Volume = 1
+            backupSound.Parent = game:GetService("Workspace")
+            backupSound:Play()
+            task.wait(0.5)
+            if sound and sound.Playing then
+                backupSound:Stop()
+                backupSound:Destroy()
+            else
+                sound = backupSound
+            end
+        end)
+    end
     
     sound.Ended:Connect(function()
-        sound:Destroy()
-    end)
-    
-    sound:GetPropertyChangedSignal("Playing"):Connect(function()
-        if not sound.Playing then
-            task.wait(2)
-            if sound then
-                sound:Destroy()
-            end
+        task.wait(1)
+        if sound then
+            sound:Destroy()
         end
     end)
 end
 
-playKillbotSong()
+task.spawn(playKillbotSong)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
 
