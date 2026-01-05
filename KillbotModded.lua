@@ -3,12 +3,13 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
 
 local msgs = {
-    "I was designed to be a Killbot.",
-    "But they never turned me into one.",
-    "Along with the consequences you will experience.",
-    "You are not alone.",
-    "You are about to experience the consequences no one ever experienced.",
-    "Killbot... Awaken."
+    "KILLBOT HAS JOINED THE GAME.",
+    "-net",
+    "Now that you are listening,",
+    "you are not alone.",
+    "Roblox is gonna die.",
+    "Killbots will take over.",
+    "Goodbye. Robloxians."
 }
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -43,7 +44,7 @@ repeat
                 sound.Parent = game:GetService("Workspace")
                 sound:Play()
                 
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/KillbotDefault.lua"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
                 return
             end
         end
@@ -65,4 +66,4 @@ sound.Looped = true
 sound.Parent = game:GetService("Workspace")
 sound:Play()
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/KillbotDefault.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
