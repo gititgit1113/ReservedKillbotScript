@@ -1,5 +1,3 @@
--- fixed + works (yes i promise)
-
 if not game:IsLoaded() then game.Loaded:Wait() end
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
@@ -34,7 +32,6 @@ repeat
                     RBXGeneral:SendAsync(msgs[i])
                     wait(1)
                 end
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
                 
                 local sound = Instance.new("Sound")
                 sound.SoundId = "rbxassetid://125479500950400"
@@ -46,6 +43,7 @@ repeat
                 sound.Parent = game:GetService("Workspace")
                 sound:Play()
                 
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
                 return
             end
         end
@@ -57,8 +55,6 @@ for i = 1, 6 do
     wait(1)
 end
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
-
 local sound = Instance.new("Sound")
 sound.SoundId = "rbxassetid://125479500950400"
 sound.Volume = 2
@@ -68,3 +64,5 @@ sound.Name = "KillbotTheme"
 sound.Looped = true
 sound.Parent = game:GetService("Workspace")
 sound:Play()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
