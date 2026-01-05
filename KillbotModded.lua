@@ -1,5 +1,5 @@
--- ok ChatService timeee yippee
--- MADE BY RESERVED AS ALWAYS :3
+-- Reserved On Top.
+-- this might be the last update as I am now developing this for 2 hours...
 
 if not game:IsLoaded() then game.Loaded:Wait() end
 
@@ -14,12 +14,13 @@ local msgs = {
     "Killbot... Awaken."
 }
 
-local ChatService = game:GetService("Chat")
-local Players = game:GetService("Players")
-
 for i = 1, 6 do
-    ChatService:Chat(Players.LocalPlayer.Character, msgs[i])
+    local args = {
+        [1] = msgs[i],
+        [2] = "All"
+    }
+    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
     wait(1)
 end
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))() -- the main script for kill bot
+loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
