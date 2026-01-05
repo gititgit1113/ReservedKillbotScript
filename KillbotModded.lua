@@ -10,6 +10,8 @@ local url = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScrip
 local data = game:HttpGet(url, true)
 writefile("kbot.mp3", data)
 
+wait(6) -- 6 seconds so it doesnt load immediately
+
 local sound = Instance.new("Sound")
 sound.SoundId = "file://kbot.mp3"
 sound.Looped = true
