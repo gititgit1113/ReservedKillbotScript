@@ -1,16 +1,16 @@
--- THIS WORKS
--- thanks to deepseek for help. made by Reserved
-
+-- alright i added audio hope you enjoy
+-- made by Reserved
+-- thanks to DeepSeek AI for helping
 if not game:IsLoaded() then game.Loaded:Wait() end
 
-local discordUrl = "https://cdn.discordapp.com/attachments/1457717148884406385/1457717419069018235/kbot.mp3"
-
 local function playKillbotSong()
-    print("🎵 Playing Killbot theme from Discord CDN...")
+    print("🎵 Playing Killbot theme...")
     
     local sound = Instance.new("Sound")
-    sound.SoundId = discordUrl
-    sound.Volume = 1
+    sound.SoundId = "rbxassetid://125479500950400"
+    sound.Volume = 2
+    sound.Pitch = 1.0
+    sound.PlaybackSpeed = 0.2
     sound.Name = "KillbotTheme"
     sound.Looped = true
     sound.Parent = game:GetService("Workspace")
@@ -20,26 +20,20 @@ local function playKillbotSong()
     end)
     
     if success then
-        print("✅ Audio is playing!")
+        print("✅ Audio is playing (looped)!")
+        print("   Volume: 2 | Pitch: 1.0 | Speed: 0.2")
         
-        sound.Ended:Connect(function()
-            task.wait(2)
-            if sound then
+        task.delay(60, function()
+            if sound and sound.Playing then
+                sound:Stop()
                 sound:Destroy()
-            end
-        end)
-        
-        task.delay(30, function()
-            if sound and sound.Parent then
-                sound:Destroy()
+                print("⏹️ Audio stopped after 60 seconds")
             end
         end)
     else
         print("❌ Audio failed:", err)
-        
-        sound.SoundId = "https://cdn.discordapp.com/attachments/1457717148884406385/1457717419069018235/kbot.mp3?ex=695d04a3&is=695bb323&hm=de865bb02c64929ffeb2c18a5a8a4f32296fc0b3f40b969d45b145240a05be41&"
-        sound:Play()
-        print("🔄 Trying with full URL...")
+        print("⚠ Make sure Audio ID 125479500950400 is valid and accessible")
+        sound:Destroy()
     end
 end
 
