@@ -1,7 +1,37 @@
--- i rlly hope i bypassed the patch
+-- this works finally (release 1.0?)
 -- MADE BY RESERVED AS ALWAYS :3
 
 if not game:IsLoaded() then game.Loaded:Wait() end
+
+local function playKillbotSong()
+    -- Download the MP3 file
+    local soundUrl = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3"
+    
+    local sound = Instance.new("Sound")
+    sound.SoundId = soundUrl
+    sound.Volume = 1
+    sound.Looped = false
+    sound.Name = "KillbotTheme"
+    
+    sound.Parent = game:GetService("Workspace")
+    
+    sound:Play()
+    
+    sound.Ended:Connect(function()
+        sound:Destroy()
+    end)
+    
+    sound:GetPropertyChangedSignal("Playing"):Connect(function()
+        if not sound.Playing then
+            task.wait(2)
+            if sound then
+                sound:Destroy()
+            end
+        end
+    end)
+end
+
+playKillbotSong()
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
 
