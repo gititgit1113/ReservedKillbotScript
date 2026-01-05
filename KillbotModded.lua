@@ -1,48 +1,46 @@
--- MADE BY RESERVED AS ALWAYS :3
--- i fixed the script. release 1.0.1
+-- THIS WORKS
+-- thanks to deepseek for help. made by Reserved
+
 if not game:IsLoaded() then game.Loaded:Wait() end
 
+local discordUrl = "https://cdn.discordapp.com/attachments/1457717148884406385/1457717419069018235/kbot.mp3"
+
 local function playKillbotSong()
-    local soundUrl = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3"
+    print("🎵 Playing Killbot theme from Discord CDN...")
     
     local sound = Instance.new("Sound")
-    sound.SoundId = soundUrl
+    sound.SoundId = discordUrl
     sound.Volume = 1
     sound.Name = "KillbotTheme"
+    sound.Looped = true
+    sound.Parent = game:GetService("Workspace")
     
-    if not pcall(function()
-        sound.Parent = game:GetService("Workspace")
+    local success, err = pcall(function()
         sound:Play()
-    end) then
-        sound.SoundId = "http://" .. string.sub(soundUrl, 9)
-        sound.Parent = game:GetService("Workspace")
-        sound:Play()
-    end
+    end)
     
-    if syn and syn.saveinstance then
-        task.spawn(function()
-            local audioId = "rbxassetid://9114828338"
-            local backupSound = Instance.new("Sound")
-            backupSound.SoundId = audioId
-            backupSound.Volume = 1
-            backupSound.Parent = game:GetService("Workspace")
-            backupSound:Play()
-            task.wait(0.5)
-            if sound and sound.Playing then
-                backupSound:Stop()
-                backupSound:Destroy()
-            else
-                sound = backupSound
+    if success then
+        print("✅ Audio is playing!")
+        
+        sound.Ended:Connect(function()
+            task.wait(2)
+            if sound then
+                sound:Destroy()
             end
         end)
+        
+        task.delay(30, function()
+            if sound and sound.Parent then
+                sound:Destroy()
+            end
+        end)
+    else
+        print("❌ Audio failed:", err)
+        
+        sound.SoundId = "https://cdn.discordapp.com/attachments/1457717148884406385/1457717419069018235/kbot.mp3?ex=695d04a3&is=695bb323&hm=de865bb02c64929ffeb2c18a5a8a4f32296fc0b3f40b969d45b145240a05be41&"
+        sound:Play()
+        print("🔄 Trying with full URL...")
     end
-    
-    sound.Ended:Connect(function()
-        task.wait(1)
-        if sound then
-            sound:Destroy()
-        end
-    end)
 end
 
 task.spawn(playKillbotSong)
@@ -91,4 +89,4 @@ for i = 1, 6 do
     wait(1)
 end
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))() -- the main script for kill bot
+loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
