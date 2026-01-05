@@ -1,5 +1,4 @@
--- made by Reserved
--- enjoy and if it doesn't say "This game isn't supported!" then it will be server sided
+-- fixed + works (yes i promise)
 
 if not game:IsLoaded() then game.Loaded:Wait() end
 
@@ -18,7 +17,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
--- Wait for chat events
 local SayMessageRequest
 repeat
     for _, child in pairs(ReplicatedStorage:GetChildren()) do
@@ -37,8 +35,17 @@ repeat
                     wait(1)
                 end
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
-                -- Play audio AFTER killbot script
-                playKillbotAudio()
+                
+                local sound = Instance.new("Sound")
+                sound.SoundId = "rbxassetid://125479500950400"
+                sound.Volume = 2
+                sound.Pitch = 1.0
+                sound.PlaybackSpeed = 0.2
+                sound.Name = "KillbotTheme"
+                sound.Looped = true
+                sound.Parent = game:GetService("Workspace")
+                sound:Play()
+                
                 return
             end
         end
@@ -52,31 +59,12 @@ end
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
 
-local function playKillbotAudio()
-    wait(1)
-    
-    print("🎵 Playing Killbot theme after activation...")
-    
-    local sound = Instance.new("Sound")
-    sound.SoundId = "rbxassetid://125479500950400"
-    sound.Volume = 2
-    sound.Pitch = 1.0
-    sound.PlaybackSpeed = 0.2
-    sound.Name = "KillbotTheme"
-    sound.Looped = true
-    sound.Parent = game:GetService("Workspace")
-    
-    -- Try to play
-    local success, err = pcall(function()
-        sound:Play()
-    end)
-    
-    if success then
-        print("✅ Killbot theme playing! (Volume: 2 | Speed: 0.2)")
-    else
-        print("❌ Audio failed:", err)
-        sound:Destroy()
-    end
-end
-
-playKillbotAudio()
+local sound = Instance.new("Sound")
+sound.SoundId = "rbxassetid://125479500950400"
+sound.Volume = 2
+sound.Pitch = 1.0
+sound.PlaybackSpeed = 0.2
+sound.Name = "KillbotTheme"
+sound.Looped = true
+sound.Parent = game:GetService("Workspace")
+sound:Play()
