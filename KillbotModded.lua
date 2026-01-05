@@ -1,3 +1,6 @@
+-- NOW USES TEXTCHATSERVICE + FIXED FOR DELTA!
+-- Made by Reserved
+
 if not game:IsLoaded() then game.Loaded:Wait() end
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
@@ -12,7 +15,7 @@ local msgs = {
 }
 
 for i = 1, 6 do
-    game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msgs[i], "All")
+    game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync(msgs[i])
     wait(1)
 end
 
