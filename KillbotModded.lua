@@ -31,7 +31,7 @@
 
 if not game:IsLoaded() then game.Loaded:Wait() end
 
-local settings = _G
+local settings = _G -- currentangle setup
 settings["Use default animations"] = true
 settings["Fake character transparency level"] = 1
 settings["Disable character scripts"] = true
@@ -51,7 +51,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/Curre
 
 local msgs = {
     "KILLBOT HAS JOINED THE GAME.",
-    "-net",
+    "-net", -- in case you are in Just a Baseplate
     "Roblox is gonna die.",
     "Killbots will take over.",
     "We will destroy the platform.",
@@ -61,6 +61,32 @@ local msgs = {
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
+
+local hint = Instance.new("Hint") -- show hint (also try backdoor)
+hint.Text = "KILLBOT HAS JOINED. RUN."
+hint.Parent = game:GetService("Workspace")
+task.wait(3)
+hint:Destroy()
+
+local function tryServerHint() -- try backdoor method if available
+    local events = {
+        ReplicatedStorage,
+        game:GetService("Workspace"),
+        game:GetService("Lighting")
+    }
+    
+    for _, location in ipairs(events) do
+        for _, child in pairs(location:GetChildren()) do
+            if child:IsA("RemoteEvent") and (child.Name:find("Hint") or child.Name:find("Notify") or child.Name:find("Message")) then
+                pcall(function()
+                    child:FireServer("KILLBOT HAS JOINED. RUN.", "All")
+                end)
+            end
+        end
+    end
+end
+
+task.spawn(tryServerHint)
 
 local SayMessageRequest
 repeat
@@ -90,6 +116,7 @@ repeat
                 sound.Parent = game:GetService("Workspace")
                 sound:Play()
                 
+                wait(3)
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/KillbotDefault.lua"))()
                 return
             end
@@ -112,4 +139,5 @@ sound.Looped = true
 sound.Parent = game:GetService("Workspace")
 sound:Play()
 
+wait(3)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/KillbotDefault.lua"))()
