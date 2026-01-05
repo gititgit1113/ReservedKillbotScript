@@ -1,97 +1,128 @@
--- Okay I hope this works
--- Made by Reserved (OGChatUnlocker on Roblox)
--- DeepSeek AI (creds to him cuz he helped me)
--- ENJOY (and I hope this works again)
+-- Killbot Script with Robust Audio System
+-- ==============================================================================
+-- This is supposed to be a DeltaFix4 as I commited A LOT OF CHANGES to this file
+-- if you look at the history
+
+-- ORIGINAL SCRIPT FROM GITHUB
+-- MADE BY RESERVED, THANKS TO DEEPSEEK FOR DA HELP
+-- gonna leave deepseek's comment here... reserved on top
+-- ==============================================================================
+
+
+-- Enjoy.
+-- if it doesnt work ill commit more than 30+ changes till I fix the audio
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
 wait(7)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/KillbotDefault.lua"))()
 
-local function downloadAndPlayAudio(filename, url)
-    if not writefile or not readfile then
-        print("❌ File system access not available")
-        return nil
+local function playKillbotAudio()
+    local songUrl = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3"
+    local fileName = "killbot_audio.mp3"
+    
+    print("🔊 Initializing audio system...")
+    
+    -- METHOD 1: Direct play (simplest)
+    local sound1 = Instance.new("Sound")
+    sound1.Name = "KillbotTheme"
+    sound1.Looped = true
+    sound1.Volume = 0.7
+    sound1.Parent = workspace
+    
+    -- Try the URL directly first
+    sound1.SoundId = songUrl
+    wait(2)
+    
+    if sound1.IsLoaded then
+        sound1:Play()
+        print("✅ METHOD 1: Direct URL works!")
+        return sound1
     end
     
-    print("📥 Downloading: " .. filename)
+    print("❌ METHOD 1 failed, trying METHOD 2...")
     
-    local audioData = game:HttpGet(url, true)
-    
-    writefile(filename, audioData)
-    print("✅ Saved as: " .. filename)
-    
-    repeat
-        task.wait(0.1)
-    until isfile(filename)
-    
-    local sound = Instance.new("Sound")
-    sound.Name = "KillbotMusic"
-    sound.Looped = true
-    sound.Volume = 0.7
-    sound.Parent = workspace
-   
-    if getcustomasset then
-        sound.SoundId = getcustomasset(filename)
-        print("🔗 Using getcustomasset: " .. sound.SoundId)
-    else
-        sound.SoundId = "file://" .. filename
-        print("🔗 Using file:// protocol")
+    -- METHOD 2: Download and use file://
+    if writefile and readfile then
+        print("📥 Downloading audio...")
+        local success, audioData = pcall(function()
+            return game:HttpGet(songUrl, true)
+        end)
+        
+        if success and audioData then
+            writefile(fileName, audioData)
+            print("✅ Downloaded: " .. #audioData .. " bytes")
+            
+            local sound2 = Instance.new("Sound")
+            sound2.Name = "KillbotLocal"
+            sound2.Looped = true
+            sound2.Volume = 0.7
+            sound2.Parent = workspace
+            
+            -- Try file:// protocol
+            sound2.SoundId = "file://" .. fileName
+            wait(3)
+            
+            if sound2.IsLoaded then
+                sound2:Play()
+                print("✅ METHOD 2: file:// protocol works!")
+                sound1:Destroy()
+                return sound2
+            else
+                print("❌ file:// not working")
+                sound2:Destroy()
+            end
+        end
     end
-
-    local startTime = tick()
-    while tick() - startTime < 10 and not sound.IsLoaded do
-        task.wait(0.5)
-        print("Loading audio...")
+    
+    print("❌ METHOD 2 failed, trying METHOD 3...")
+    
+    -- METHOD 3: Use a working Roblox audio ID as fallback
+    local fallbackIDs = {
+        9096765392,  -- something i left here heh...
+        9111348332,  -- Epic music
+        1847248709,  -- LoFi
+        6951256309,  -- Synth
+        311739919    -- Default
+    }
+    
+    for _, id in ipairs(fallbackIDs) do
+        local sound3 = Instance.new("Sound")
+        sound3.SoundId = "rbxassetid://" .. id
+        sound3.Looped = true
+        sound3.Volume = 0.5
+        sound3.Parent = workspace
+        
+        wait(2)
+        if sound3.IsLoaded then
+            sound3:Play()
+            print("✅ METHOD 3: Using Roblox ID: " .. id)
+            sound1:Destroy()
+            return sound3
+        else
+            sound3:Destroy()
+        end
     end
     
-    if sound.IsLoaded then
-        sound:Play()
-        print("🎵 Audio playing successfully!")
-        return sound
-    else
-        print("❌ Audio failed to load")
-        sound:Destroy()
-        return nil
-    end
+    print("❌ All audio methods failed!")
+    sound1:Destroy()
+    return nil
 end
 
+-- Start audio
 spawn(function()
-    local songFile = "killbot_theme.mp3"
-    local songUrl = "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3"
-    
-    local music = downloadAndPlayAudio(songFile, songUrl)
-    
-    if not music then
-        print("🔄 Trying alternative method...")
-
-        local sound = Instance.new("Sound")
-        sound.Name = "BackupMusic"
-        sound.Looped = true
-        sound.Volume = 0.5
-        sound.Parent = workspace
-        
-        local formats = {
-            "https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/kbot.mp3",
-            "rbxassetid://9096765392",  -- Your ID
-            "rbxassetid://9111348332",  -- Fallback
-        }
-        
-        for _, url in ipairs(formats) do
-            pcall(function()
-                sound.SoundId = url
-                wait(2)
-                if sound.IsLoaded then
-                    sound:Play()
-                    print("✅ Playing from: " .. url)
-                    break
-                end
-            end)
-        end
+    local music = playKillbotAudio()
+    if music then
+        print("🎵 alright its done")
+    else
+        print("⚠️ failed buddy, at least the script works right")
+        print("ok im done bye")
     end
 end)
 
 game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "Killbot Loaded",
-    Text = "FINALLY BRO",
+    Title = "Killbot Active",
+    Text = "ENJOY! :D",
     Duration = 5
 })
+
+print("\n=== I AM F#####G DONE ===")
