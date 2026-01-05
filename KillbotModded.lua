@@ -1,5 +1,5 @@
--- NOW USES TEXTCHATSERVICE + FIXED FOR DELTA!
--- Made by Reserved
+-- ok ChatService timeee yippee
+-- MADE BY RESERVED AS ALWAYS :3
 
 if not game:IsLoaded() then game.Loaded:Wait() end
 
@@ -14,8 +14,11 @@ local msgs = {
     "Killbot... Awaken."
 }
 
+local ChatService = game:GetService("Chat")
+local Players = game:GetService("Players")
+
 for i = 1, 6 do
-    game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync(msgs[i])
+    ChatService:Chat(Players.LocalPlayer.Character, msgs[i])
     wait(1)
 end
 
